@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Messages App</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="app">
+  <h1>Messages App</h1>
+
+  <!-- FORM -->
+<form class="form" onsubmit="sendMessage(event)">
+    <input 
+      type="text" 
+      id="nameInput"
+      placeholder="Your name"
+      required
+      minlength="1">
+    <textarea 
+      id="textInput"
+      placeholder="Your message"
+      required
+      minlength="1"
+    ></textarea>
+
+    <button class="send-btn" type="submit">Send</button>
+  </form>
+
+  <!-- MESSAGES -->
+  <div class="messages" id="messagesList"></div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h2>Edit message</h2>
+
+    <textarea id="editText"></textarea>
+
+    <div class="modal-actions">
+      <button class="save-btn" onclick="saveEdit()">Save</button>
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let editingId = null;
+
+// Load messages 
+async function loadMessages() {
+  const res = await fetch('/api/messages');
+  const data = await res.json();
+
+  const list = document.getElementById('messagesList');
+  list.innerHTML = '';
+
+  data.reverse().forEach(msg => {
+    const div = document.createElement('div');
+    div.className = 'message';
+
+    div.innerHTML = `
+      <div class="message-header">
+        <span>${msg.name}</span>
+        <span>${new Date(msg.createdAt).toLocaleString()}</span>
+      </div>
+
+      <div class="message-text">${msg.text}</div>
+
+      <div class="message-actions">
+        <button class="edit-btn" onclick="openEditModal('${msg._id}', \`${msg.text}\`)">Edit</button>
+        <button class="delete-btn" onclick="deleteMessage('${msg._id}')">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+// Send message 
+async function sendMessage(event) {
+  if (event) event.preventDefault();
+
+  const name = document.getElementById('nameInput').value.trim();
+  const text = document.getElementById('textInput').value.trim();
+  const sendBtn = document.querySelector('.send-btn');
+
+  if (name.length < 1 || text.length < 1) {
+    alert('Name and message cannot be empty!');
+    return;
+  }
+  sendBtn.classList.add('loading');
+
+  await fetch('/api/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, text })
+  });
+
+  sendBtn.classList.remove('loading'); 
+
+  document.getElementById('nameInput').value = '';
+  document.getElementById('textInput').value = '';
+
+  loadMessages();
+showToast('Sent ✅', 'success');
+}
+
+
+// Delete message
+async function deleteMessage(id) {
+  await fetch(`/api/messages/${id}`, { method: 'DELETE' });
+  loadMessages();
+  showToast('Deleted ❌', 'error'); 
+}
+
+
+
+// Open modal 
+function openEditModal(id, text) {
+  editingId = id;
+  document.getElementById('editText').value = text;
+  document.getElementById('editModal').style.display = 'flex';
+}
+
+// Close modal 
+function closeModal() {
+  document.getElementById('editModal').style.display = 'none';
+  editingId = null;
+}
+
+// Save edit 
+async function saveEdit() {
+  const newText = document.getElementById('editText').value.trim();
+  const saveBtn = document.querySelector('.save-btn');
+
+  if (newText.length < 1) {
+    alert('Message cannot be empty!');
+    return;
+  }
+
+  // Animate button 
+  saveBtn.classList.add('loading');
+
+  await fetch(`/api/messages/${editingId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: newText })
+  });
+
+  saveBtn.classList.remove('loading');
+
+  closeModal();
+  loadMessages();
+
+showToast('Saved ✅', 'success');
+}
+
+// Save edited message by pressing Enter in edit textarea
+document.getElementById('editText').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    saveEdit();
+  }
+});
+
+
+
+  closeModal();
+  loadMessages();
+
+/* Initial load */
+loadMessages();
+
+// Send message by pressing Enter in textarea
+document.getElementById('textInput').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault(); // Prevent new line
+    sendMessage(e);      // Send message
+  }
+});
+
+// Toast notification //
+function showToast(text, type = 'info') {
+  const toast = document.getElementById('toast');
+
+  toast.textContent = text;
+  toast.className = `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.className = 'toast';
+  }, 2000);
+}
+</script> 
+<div id="toast" class="toast"></div>
+</body>
+</html>

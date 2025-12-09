@@ -1,0 +1,283 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6a7cff, #7b5cff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* APP */
+.app {
+  width: 420px;
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+textarea {
+  resize: none;
+  height: 90px;
+}
+
+.send-btn {
+  background: #6a7cff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.15s ease;
+}
+
+.send-btn:hover {
+  transform: scale(1.03);
+}
+
+/* MESSAGES */
+.messages {
+  margin-top: 20px;
+  height: 320px;
+  overflow-y: auto;
+  padding-right: 10px;
+  border-top: 1px solid #ddd;
+}
+
+/* MESSAGE */
+.message {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.message-text {
+  margin-top: 6px;
+}
+
+.message-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-btn {
+  background: #666;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+/* ===== MODAL ===== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  width: 380px;
+  padding: 25px;
+  border-radius: 18px;
+  animation: scaleIn 0.2s ease;
+}
+
+.modal h2 {
+  margin-bottom: 12px;
+}
+
+.modal textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.save-btn {
+  flex: 1;
+  background: #6a7cff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  flex: 1;
+  background: #666;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+/* Animation */
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #2ecc71;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 2000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== SAVE BUTTON LOADING ANIMATION ===== */
+
+.save-btn.loading {
+  background: #aaa;
+  pointer-events: none;
+  position: relative;
+  color: transparent; /* скрываем текст */
+}
+
+.save-btn.loading::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 0.8s linear infinite;
+}
+
+/* ===== SEND BUTTON LOADING ANIMATION ===== */
+
+.send-btn.loading {
+  background: #aaa;
+  pointer-events: none;
+  position: relative;
+  color: transparent; /* скрываем текст */
+}
+
+.send-btn.loading::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+/* ===== TOAST SYSTEM ===== */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #333;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 2000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* colors */
+.toast.success {
+  background: #2ecc71;
+}
+
+.toast.info {
+  background: #3498db; 
+}
+
+.toast.error {
+  background: #e74c3c; 
+}
