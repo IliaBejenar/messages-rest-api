@@ -283,65 +283,109 @@ textarea {
 }
 
 
-/* ===== MOBILE ADAPTIVE ===== */
+/* ===== PERFECT MOBILE ADAPTIVE ===== */
 @media (max-width: 500px) {
 
   body {
-    padding: 10px;
-    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+    align-items: stretch;
+    background: linear-gradient(135deg, #6a7cff, #7b5cff);
   }
 
   .app {
     width: 100%;
+    height: 100vh;
     max-width: 100%;
-    border-radius: 16px;
-    padding: 18px;
-    margin-top: 20px;
+    border-radius: 0;
+    padding: 16px;
+    justify-content: space-between;
   }
 
   h1 {
-    font-size: 22px;
+    font-size: 20px;
+    margin-bottom: 10px;
   }
 
-  input, textarea {
+  .form {
+    gap: 10px;
+  }
+
+  input {
     font-size: 14px;
     padding: 12px;
+    border-radius: 10px;
   }
 
   textarea {
-    height: 80px;
+    font-size: 14px;
+    padding: 12px;
+    height: 70px;
+    border-radius: 12px;
   }
 
   .send-btn {
+    width: 100%;
     font-size: 15px;
     padding: 12px;
+    border-radius: 14px;
   }
 
+  /* ==== MESSAGES BLOCK ==== */
   .messages {
-    height: 250px;
+    flex: 1;
+    height: auto;
+    margin-top: 15px;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  .message {
+    font-size: 14px;
+    padding: 10px;
   }
 
   .message-header {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .message-actions {
-    flex-direction: column;
+    flex-direction: row;
+    gap: 6px;
   }
 
   .edit-btn,
   .delete-btn {
-    width: 100%;
-    font-size: 14px;
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 10px;
   }
 
-  /* MODAL */
+  /* ==== MODAL ==== */
   .modal {
-    width: 90%;
+    width: 92%;
     padding: 18px;
+    border-radius: 14px;
   }
 
   .modal textarea {
-    height: 90px;
+    height: 80px;
+  }
+
+  .modal-actions {
+    gap: 8px;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* ==== TOAST MOBILE FIX ==== */
+  .toast {
+    bottom: 20px;
+    font-size: 14px;
+    padding: 10px 16px;
   }
 }
