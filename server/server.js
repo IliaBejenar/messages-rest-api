@@ -31,12 +31,12 @@ const PORT = process.env.PORT || 3000;
 
 // If port is already in use, switch automatically
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 }).on('error', err => {
   if (err.code === 'EADDRINUSE') {
     const newPort = PORT + 1;
     app.listen(newPort, () => {
-      console.log(`⚠️ Port ${PORT} was busy, switched to http://localhost:${newPort}`);
+      console.log(`Port ${PORT} was busy, switched to http://localhost:${newPort}`);
     });
   }
 });
