@@ -281,3 +281,67 @@ textarea {
 .toast.error {
   background: #e74c3c; 
 }
+
+
+/* ===== MOBILE ADAPTIVE ===== */
+@media (max-width: 500px) {
+
+  body {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px;
+    padding: 18px;
+    margin-top: 20px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  input, textarea {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  textarea {
+    height: 80px;
+  }
+
+  .send-btn {
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  .messages {
+    height: 250px;
+  }
+
+  .message-header {
+    font-size: 13px;
+  }
+
+  .message-actions {
+    flex-direction: column;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  /* MODAL */
+  .modal {
+    width: 90%;
+    padding: 18px;
+  }
+
+  .modal textarea {
+    height: 90px;
+  }
+}
